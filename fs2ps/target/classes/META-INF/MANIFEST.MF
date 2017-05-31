@@ -1,0 +1,35 @@
+Manifest-Version: 1.0
+Astah-Edition: all
+Astah-Version: 6.7
+Bnd-LastModified: 1496239729652
+Build-Jdk: 1.8.0_121
+Built-By: 10067320
+Bundle-Activator: ocularium.Activator
+Bundle-Description: %bundle.description
+Bundle-DocURL: https://ocularium.github.io/ocularium/
+Bundle-ManifestVersion: 2
+Bundle-Name: %bundle.name
+Bundle-SymbolicName: ocularium.simpleocl; singleton:=true
+Bundle-Vendor: Ocularium
+Bundle-Version: 1.2.1
+Created-By: Apache Maven Bundle Plugin
+Embed-Dependency: *;scope=compile|runtime;type=!pom
+Embed-Transitive: true
+Export-Package: ocularium;uses:="org.osgi.framework";version="1.2.1",ocu
+ larium.views;uses:="javax.swing.table,com.change_vision.jude.api.inf.mo
+ del,com.change_vision.jude.api.inf.project,com.change_vision.jude.api.i
+ nf.view,com.change_vision.jude.api.inf,javax.swing,com.change_vision.ju
+ de.api.inf.exception,com.change_vision.jude.api.inf.ui";version="1.2.1"
+ ,ocularium.actions;uses:="com.change_vision.jude.api.inf.ui,com.change_
+ vision.jude.api.inf.exception,com.change_vision.jude.api.inf.project,co
+ m.change_vision.jude.api.inf.view,com.change_vision.jude.api.inf.model,
+ com.change_vision.jude.api.inf,javax.swing";version="1.2.1"
+Import-Package: com.change_vision.jude.api.inf;resolution:=optional,com.
+ change_vision.jude.api.inf.editor;resolution:=optional,com.change_visio
+ n.jude.api.inf.exception;resolution:=optional,com.change_vision.jude.ap
+ i.inf.model;resolution:=optional,com.change_vision.jude.api.inf.project
+ ;resolution:=optional,com.change_vision.jude.api.inf.ui;resolution:=opt
+ ional,com.change_vision.jude.api.inf.view;resolution:=optional,javax.sw
+ ing;resolution:=optional,javax.swing.table;resolution:=optional,org.osg
+ i.framework;version="[1.5,2)";resolution:=optional
+Tool: Bnd-1.50.0

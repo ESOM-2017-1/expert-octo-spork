@@ -11,8 +11,8 @@
 	</properties>
 
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>ocularium</groupId>
-	<artifactId>simpleocl</artifactId>
+	<groupId>br.pucrs.esom</groupId>
+	<artifactId>families2persons</artifactId>
 	<version>1.0</version>
 	<packaging>jar</packaging>
 	<name>%bundle.name</name>

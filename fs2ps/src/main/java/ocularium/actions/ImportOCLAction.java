@@ -57,7 +57,7 @@ public class ImportOCLAction implements IPluginActionDelegate {
 			ProjectAccessor projectAccessor = api.getProjectAccessor();
 			IModel project = projectAccessor.getProject();
 			Families2PersonsFacade f = new Families2PersonsFacade(project);
-
+			f.transformToPersons();
 
 				JOptionPane.showMessageDialog(window.getParent(), "Transform under construction!");
 		} catch (ProjectNotFoundException e) {

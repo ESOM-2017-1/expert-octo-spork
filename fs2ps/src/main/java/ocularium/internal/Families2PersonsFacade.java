@@ -432,4 +432,10 @@ public class Families2PersonsFacade {
 		return prjAccessor.getProjectPath() + ".ocl";
 	}
 
+	public void transformToPersons() {
+		// TODO get sample-source
+		// TODO get list of objects (family members)
+		// TODO create a new person for every family member
+	}
+
 }

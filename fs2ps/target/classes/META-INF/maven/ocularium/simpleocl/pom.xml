@@ -3,7 +3,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
 	<properties>
-		<bundle.symbolicName>ocularium.simpleocl</bundle.symbolicName>
+		<bundle.symbolicName>br.pucrs.esom.families2persons</bundle.symbolicName>
 		<bundle.namespace>ocularium</bundle.namespace>
 		<plugin.install>true</plugin.install>
 		<astah.version>6.7</astah.version>
@@ -13,7 +13,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>ocularium</groupId>
 	<artifactId>simpleocl</artifactId>
-	<version>1.2.1</version>
+	<version>1.0</version>
 	<packaging>jar</packaging>
 	<name>%bundle.name</name>
 	<description>%bundle.description</description>

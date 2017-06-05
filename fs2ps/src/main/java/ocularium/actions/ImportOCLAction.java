@@ -37,6 +37,7 @@ import com.change_vision.jude.api.inf.project.ProjectAccessor;
 import com.change_vision.jude.api.inf.ui.IPluginActionDelegate;
 import com.change_vision.jude.api.inf.ui.IWindow;
 
+import ocularium.internal.Families2PersonsFacade;
 import ocularium.internal.OculariumFacade;
 
 /**
@@ -55,22 +56,10 @@ public class ImportOCLAction implements IPluginActionDelegate {
 			AstahAPI api = AstahAPI.getAstahAPI();
 			ProjectAccessor projectAccessor = api.getProjectAccessor();
 			IModel project = projectAccessor.getProject();
-			OculariumFacade f = new OculariumFacade(project);
+			Families2PersonsFacade f = new Families2PersonsFacade(project);
 
-			JFileChooser chooser = new JFileChooser();
-			Component aComponent = AstahAPI.getAstahAPI().getViewManager().getMainFrame();
-			String x = OculariumFacade.getOclProjectPath(projectAccessor);
-			chooser.setCurrentDirectory(new File(x));
-			int returnVal = chooser.showOpenDialog(aComponent);
-			if (returnVal == JFileChooser.APPROVE_OPTION) {
-				File file = chooser.getSelectedFile();
 
-				Reader r = new FileReader(file);
-				f.importOCL(r);
-				r.close();
-
-				JOptionPane.showMessageDialog(window.getParent(), "Import OCL Completed!");
-			}
+				JOptionPane.showMessageDialog(window.getParent(), "Transform under construction!");
 		} catch (ProjectNotFoundException e) {
 			e.printStackTrace();
 			String message = "Project is not opened.Please open the project or create new project.";

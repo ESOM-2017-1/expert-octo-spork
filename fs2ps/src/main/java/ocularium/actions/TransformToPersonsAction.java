@@ -46,7 +46,7 @@ import ocularium.internal.OculariumFacade;
  * @author marco.mangan@gmail.com
  *
  */
-public class ImportOCLAction implements IPluginActionDelegate {
+public class TransformToPersonsAction implements IPluginActionDelegate {
 
 	/**
 	 * 
@@ -59,7 +59,7 @@ public class ImportOCLAction implements IPluginActionDelegate {
 			Families2PersonsFacade f = new Families2PersonsFacade(project);
 			f.transformToPersons();
 
-				JOptionPane.showMessageDialog(window.getParent(), "Transform under construction!");
+				//JOptionPane.showMessageDialog(window.getParent(), "Transform under construction!");
 		} catch (ProjectNotFoundException e) {
 			e.printStackTrace();
 			String message = "Project is not opened.Please open the project or create new project.";

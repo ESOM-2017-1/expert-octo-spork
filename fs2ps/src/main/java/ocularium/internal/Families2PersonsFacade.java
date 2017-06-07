@@ -38,6 +38,7 @@ import com.change_vision.jude.api.inf.exception.ProjectNotFoundException;
 import com.change_vision.jude.api.inf.model.IAttribute;
 import com.change_vision.jude.api.inf.model.IClass;
 import com.change_vision.jude.api.inf.model.IConstraint;
+import com.change_vision.jude.api.inf.model.IInstanceSpecification;
 import com.change_vision.jude.api.inf.model.IModel;
 import com.change_vision.jude.api.inf.model.INamedElement;
 import com.change_vision.jude.api.inf.model.IOperation;
@@ -432,10 +433,34 @@ public class Families2PersonsFacade {
 		return prjAccessor.getProjectPath() + ".ocl";
 	}
 
-	public void transformToPersons() {
+	//http://astah.net/tutorials/plug-ins/plugin_tutorial_en/html/example.html
+	public void transformToPersons() throws ClassNotFoundException, ProjectNotFoundException {
+		System.out.println("Transform started...");
 		// TODO get sample-source
+		List<IClass> classeList = new ArrayList<IClass>();
+        getAllClasses(project, classeList);	
+        System.out.println(classeList);
 		// TODO get list of objects (family members)
 		// TODO create a new person for every family member
+		System.out.println("Transform ended.");
 	}
-
+	///https://astahblog.com/2013/08/08/uml_object_diagram_in_astah/
+	//https://books.google.com.br/books?id=qVZ7DQAAQBAJ&pg=PA251&lpg=PA251&dq=astah+plugin+get+all+instances&source=bl&ots=mPrdw-spVM&sig=MhkjizylZ0S4D8NGZfkfJwfjwUA&hl=pt-BR&sa=X&ved=0ahUKEwii4MHi8qvUAhVLlpAKHQGVADsQ6AEIVDAF#v=onepage&q=astah%20plugin%20get%20all%20instances&f=false
+	//Formal Methods: Foundations and Applications: 19th Brazilian Symposium, SBMF ...
+	//edited by Leila Ribeiro, Thierry Lecomte
+	   private void getAllClasses(INamedElement element, List<IClass> classList) throws ClassNotFoundException, ProjectNotFoundException {
+	System.out.println("Element" + element.getName());
+		   if (element instanceof IPackage) {
+	            for(INamedElement ownedNamedElement : ((IPackage)element).getOwnedElements()) {
+	                getAllClasses(ownedNamedElement, classList);
+	            }
+	        } else if (element instanceof IClass) {
+	            classList.add((IClass)element);
+	            for(IClass nestedClasses : ((IClass)element).getNestedClasses()) {
+	                getAllClasses(nestedClasses, classList);
+	            }
+	        }
+	        
+	        
+	    }
 }

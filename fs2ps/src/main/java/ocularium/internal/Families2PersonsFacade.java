@@ -448,6 +448,8 @@ public class Families2PersonsFacade {
 	//https://books.google.com.br/books?id=qVZ7DQAAQBAJ&pg=PA251&lpg=PA251&dq=astah+plugin+get+all+instances&source=bl&ots=mPrdw-spVM&sig=MhkjizylZ0S4D8NGZfkfJwfjwUA&hl=pt-BR&sa=X&ved=0ahUKEwii4MHi8qvUAhVLlpAKHQGVADsQ6AEIVDAF#v=onepage&q=astah%20plugin%20get%20all%20instances&f=false
 	//Formal Methods: Foundations and Applications: 19th Brazilian Symposium, SBMF ...
 	//edited by Leila Ribeiro, Thierry Lecomte
+	
+	//http://members.change-vision.com/javadoc/astah-api/6_5/api/en/doc/astahAPI_reference.html#class_diagram
 	   private void getAllClasses(INamedElement element, List<IClass> classList) throws ClassNotFoundException, ProjectNotFoundException {
 	System.out.println("Element" + element.getName());
 		   if (element instanceof IPackage) {

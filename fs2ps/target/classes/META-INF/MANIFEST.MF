@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Astah-Edition: all
 Astah-Version: 6.7
-Bnd-LastModified: 1496843991874
+Bnd-LastModified: 1497277189308
 Build-Jdk: 1.8.0_121
 Built-By: 10067320
 Bundle-Activator: ocularium.Activator
@@ -27,9 +27,10 @@ Export-Package: ocularium;uses:="org.osgi.framework";version="1.0",ocula
 Import-Package: com.change_vision.jude.api.inf;resolution:=optional,com.
  change_vision.jude.api.inf.editor;resolution:=optional,com.change_visio
  n.jude.api.inf.exception;resolution:=optional,com.change_vision.jude.ap
- i.inf.model;resolution:=optional,com.change_vision.jude.api.inf.project
- ;resolution:=optional,com.change_vision.jude.api.inf.ui;resolution:=opt
- ional,com.change_vision.jude.api.inf.view;resolution:=optional,javax.sw
- ing;resolution:=optional,javax.swing.table;resolution:=optional,org.osg
- i.framework;version="[1.5,2)";resolution:=optional
+ i.inf.model;resolution:=optional,com.change_vision.jude.api.inf.present
+ ation;resolution:=optional,com.change_vision.jude.api.inf.project;resol
+ ution:=optional,com.change_vision.jude.api.inf.ui;resolution:=optional,
+ com.change_vision.jude.api.inf.view;resolution:=optional,javax.swing;re
+ solution:=optional,javax.swing.table;resolution:=optional,org.osgi.fram
+ ework;version="[1.5,2)";resolution:=optional
 Tool: Bnd-1.50.0

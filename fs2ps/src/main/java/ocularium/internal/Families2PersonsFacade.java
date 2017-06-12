@@ -34,15 +34,17 @@ import com.change_vision.jude.api.inf.AstahAPI;
 import com.change_vision.jude.api.inf.editor.BasicModelEditor;
 import com.change_vision.jude.api.inf.editor.ModelEditorFactory;
 import com.change_vision.jude.api.inf.editor.TransactionManager;
+import com.change_vision.jude.api.inf.exception.InvalidUsingException;
 import com.change_vision.jude.api.inf.exception.ProjectNotFoundException;
 import com.change_vision.jude.api.inf.model.IAttribute;
 import com.change_vision.jude.api.inf.model.IClass;
 import com.change_vision.jude.api.inf.model.IConstraint;
-import com.change_vision.jude.api.inf.model.IInstanceSpecification;
+import com.change_vision.jude.api.inf.model.IDiagram;
 import com.change_vision.jude.api.inf.model.IModel;
 import com.change_vision.jude.api.inf.model.INamedElement;
 import com.change_vision.jude.api.inf.model.IOperation;
 import com.change_vision.jude.api.inf.model.IPackage;
+import com.change_vision.jude.api.inf.presentation.IPresentation;
 import com.change_vision.jude.api.inf.project.ProjectAccessor;
 
 /**
@@ -309,17 +311,16 @@ public class Families2PersonsFacade {
 			BasicModelEditor basicModelEditor = ModelEditorFactory.getBasicModelEditor();
 
 			String[] cleanName = elementName.split("\\(");
-			
+
 			// The element may be from different types, all interfaces
 			// from a common generalized interface named INamedElement
 			//
 			// If there is a is a parenthesis inside the name
 			// it may indicate:
 			// IOperation or IMessage.
-			// 
+			//
 			// Otherwise, it may indicate:
 			// IAssociation, IAttribute, or IClass
-
 
 			String[] qualifiedName = cleanName[0].split("::");
 			System.out.printf("qualifiedName:[%s]\n", Arrays.toString(qualifiedName));
@@ -331,9 +332,9 @@ public class Families2PersonsFacade {
 			INamedElement[] elements = prjAccessor.findElements(INamedElement.class,
 					qualifiedName[qualifiedName.length - 1]);
 			System.out.printf("elements:[%s]\n", Arrays.toString(elements));
-			
+
 			assert elements.length > 0; // At least one element was found
-			
+
 			if (elements.length == 1) {
 				classA = elements[0];
 			} else {
@@ -433,36 +434,45 @@ public class Families2PersonsFacade {
 		return prjAccessor.getProjectPath() + ".ocl";
 	}
 
-	//http://astah.net/tutorials/plug-ins/plugin_tutorial_en/html/example.html
-	public void transformToPersons() throws ClassNotFoundException, ProjectNotFoundException {
+	/**
+	 * 
+	 * @throws ClassNotFoundException
+	 * @throws ProjectNotFoundException
+	 * @throws InvalidUsingException
+	 */
+	public void transformToPersons() throws ClassNotFoundException, ProjectNotFoundException, InvalidUsingException {
 		System.out.println("Transform started...");
-		// TODO get sample-source
-		List<IClass> classeList = new ArrayList<IClass>();
-        getAllClasses(project, classeList);	
-        System.out.println(classeList);
-		// TODO get list of objects (family members)
-		// TODO create a new person for every family member
+		IDiagram[] diagrams = project.getDiagrams();
+		for (int i = 0; i < diagrams.length; i++) {
+			IPresentation[] iPresentations = diagrams[i].getPresentations();
+			for (IPresentation p : iPresentations) {
+				System.out.printf("[%s Model=%s Type=%s Properties=%s]\n", 
+						p, p.getType(), p.getModel(),
+						p.getProperties());
+			}
+		}
 		System.out.println("Transform ended.");
 	}
-	///https://astahblog.com/2013/08/08/uml_object_diagram_in_astah/
-	//https://books.google.com.br/books?id=qVZ7DQAAQBAJ&pg=PA251&lpg=PA251&dq=astah+plugin+get+all+instances&source=bl&ots=mPrdw-spVM&sig=MhkjizylZ0S4D8NGZfkfJwfjwUA&hl=pt-BR&sa=X&ved=0ahUKEwii4MHi8qvUAhVLlpAKHQGVADsQ6AEIVDAF#v=onepage&q=astah%20plugin%20get%20all%20instances&f=false
-	//Formal Methods: Foundations and Applications: 19th Brazilian Symposium, SBMF ...
-	//edited by Leila Ribeiro, Thierry Lecomte
-	
-	//http://members.change-vision.com/javadoc/astah-api/6_5/api/en/doc/astahAPI_reference.html#class_diagram
-	   private void getAllClasses(INamedElement element, List<IClass> classList) throws ClassNotFoundException, ProjectNotFoundException {
-	System.out.println("Element" + element.getName());
-		   if (element instanceof IPackage) {
-	            for(INamedElement ownedNamedElement : ((IPackage)element).getOwnedElements()) {
-	                getAllClasses(ownedNamedElement, classList);
-	            }
-	        } else if (element instanceof IClass) {
-	            classList.add((IClass)element);
-	            for(IClass nestedClasses : ((IClass)element).getNestedClasses()) {
-	                getAllClasses(nestedClasses, classList);
-	            }
-	        }
-	        
-	        
-	    }
+	/// https://astahblog.com/2013/08/08/uml_object_diagram_in_astah/
+	// https://books.google.com.br/books?id=qVZ7DQAAQBAJ&pg=PA251&lpg=PA251&dq=astah+plugin+get+all+instances&source=bl&ots=mPrdw-spVM&sig=MhkjizylZ0S4D8NGZfkfJwfjwUA&hl=pt-BR&sa=X&ved=0ahUKEwii4MHi8qvUAhVLlpAKHQGVADsQ6AEIVDAF#v=onepage&q=astah%20plugin%20get%20all%20instances&f=false
+	// Formal Methods: Foundations and Applications: 19th Brazilian Symposium,
+	/// SBMF ...
+	// edited by Leila Ribeiro, Thierry Lecomte
+
+	// http://members.change-vision.com/javadoc/astah-api/6_5/api/en/doc/astahAPI_reference.html#class_diagram
+	private void getAllClasses(INamedElement element, List<IClass> classList)
+			throws ClassNotFoundException, ProjectNotFoundException {
+		System.out.println("Element" + element.getName());
+		if (element instanceof IPackage) {
+			for (INamedElement ownedNamedElement : ((IPackage) element).getOwnedElements()) {
+				getAllClasses(ownedNamedElement, classList);
+			}
+		} else if (element instanceof IClass) {
+			classList.add((IClass) element);
+			for (IClass nestedClasses : ((IClass) element).getNestedClasses()) {
+				getAllClasses(nestedClasses, classList);
+			}
+		}
+
+	}
 }

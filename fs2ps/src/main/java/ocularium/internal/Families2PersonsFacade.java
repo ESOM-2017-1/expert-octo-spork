@@ -28,7 +28,9 @@ import java.util.List;
 import com.change_vision.jude.api.inf.exception.InvalidUsingException;
 import com.change_vision.jude.api.inf.exception.ProjectNotFoundException;
 import com.change_vision.jude.api.inf.model.IDiagram;
+import com.change_vision.jude.api.inf.model.IElement;
 import com.change_vision.jude.api.inf.model.IInstanceSpecification;
+import com.change_vision.jude.api.inf.model.ILinkEnd;
 import com.change_vision.jude.api.inf.model.IModel;
 import com.change_vision.jude.api.inf.presentation.IPresentation;
 import com.change_vision.jude.api.inf.project.ProjectAccessor;
@@ -83,7 +85,7 @@ public class Families2PersonsFacade {
 		System.out.println("Transform started...");
 		List<IInstanceSpecification> members = getAllMembers();
 		for (IInstanceSpecification m : members) {
-			System.out.println("fullName= " + m.getSlot("firstName") + " " + getFamilyName(m));
+			System.out.println("fullName= " + getFirstName(m) + " " + getFamilyName(m));
 			System.out.println("isFemale= " + isFemale(m));
 		}
 
@@ -95,13 +97,45 @@ public class Families2PersonsFacade {
 	/// SBMF ...
 	// edited by Leila Ribeiro, Thierry Lecomte
 
-	private boolean isFemale(IInstanceSpecification m) {
-		// TODO Auto-generated method stub
+	private String getFirstName(IInstanceSpecification m) {
+		return m.getSlot("firstName").getValue();
+	}
+
+	private boolean isFemale(IInstanceSpecification m) throws InvalidUsingException {
+		ILinkEnd[] les = m.getLinkEnds();
+		String relation = les[0].getName();
+
+		// TODO: uncomment these for debug
+		//for (ILinkEnd iLinkEnd : les) {
+		//	System.out.println("Link: "+iLinkEnd.getName());
+		//}
+		
+		// FIXME: ATL example uses familyMother and familyDaughter
+		if (relation.equals("mother"))
+			return true;
+		if (relation.equals("daughters"))
+			return true;		
+		
 		return false;
 	}
 
 	private String getFamilyName(IInstanceSpecification m) {
 		// TODO Auto-generated method stub
+		// TODO Auto-generated method stub
+		//m.getAllResidents();
+		//m.getClientDependencies();
+		//m.getClientRealizations();
+		//m.getClientUsages();
+		//IPresentation[] ps = m.getPresentations();
+		//for (IPresentation iPresentation : ps) {
+		//	System.out.println("Presentation: "+iPresentation);
+		//}
+		ILinkEnd[] les = m.getLinkEnds();
+		// Not containers... IElement[] cs = les[0].getContainers();
+		//for (IElement iElement : cs) {
+		//	System.out.println(iElement);
+		//}		
+		System.out.println(les[0].getContainer());
 
 		return "DummyFamilyName";
 	}

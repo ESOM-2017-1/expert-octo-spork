@@ -30,7 +30,6 @@ import com.change_vision.jude.api.inf.exception.ProjectNotFoundException;
 import com.change_vision.jude.api.inf.model.IDiagram;
 import com.change_vision.jude.api.inf.model.IInstanceSpecification;
 import com.change_vision.jude.api.inf.model.IModel;
-import com.change_vision.jude.api.inf.model.ISlot;
 import com.change_vision.jude.api.inf.presentation.IPresentation;
 import com.change_vision.jude.api.inf.project.ProjectAccessor;
 
@@ -84,8 +83,8 @@ public class Families2PersonsFacade {
 		System.out.println("Transform started...");
 		List<IInstanceSpecification> members = getAllMembers();
 		for (IInstanceSpecification m : members) {
-				System.out.println("fullName= " + m.getSlot("firstName") + " " + getFamilyName(m));
-				System.out.println("isFemale= " + isFemale(m));
+			System.out.println("fullName= " + m.getSlot("firstName") + " " + getFamilyName(m));
+			System.out.println("isFemale= " + isFemale(m));
 		}
 
 		System.out.println("Transform ended.");
@@ -103,7 +102,7 @@ public class Families2PersonsFacade {
 
 	private String getFamilyName(IInstanceSpecification m) {
 		// TODO Auto-generated method stub
-		
+
 		return "DummyFamilyName";
 	}
 

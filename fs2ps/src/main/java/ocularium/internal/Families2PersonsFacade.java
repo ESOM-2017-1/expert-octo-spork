@@ -25,6 +25,11 @@ package ocularium.internal;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.change_vision.jude.api.inf.editor.BasicModelEditor;
+import com.change_vision.jude.api.inf.editor.ClassDiagramEditor;
+import com.change_vision.jude.api.inf.editor.ModelEditorFactory;
+import com.change_vision.jude.api.inf.editor.TransactionManager;
+import com.change_vision.jude.api.inf.exception.InvalidEditingException;
 import com.change_vision.jude.api.inf.exception.InvalidUsingException;
 import com.change_vision.jude.api.inf.exception.ProjectNotFoundException;
 import com.change_vision.jude.api.inf.model.IDiagram;
@@ -34,6 +39,7 @@ import com.change_vision.jude.api.inf.model.ILinkEnd;
 import com.change_vision.jude.api.inf.model.IModel;
 import com.change_vision.jude.api.inf.presentation.IPresentation;
 import com.change_vision.jude.api.inf.project.ProjectAccessor;
+import com.change_vision.jude.api.inf.project.ProjectAccessorFactory;
 
 /**
  * Families2Persons Façade.
@@ -80,15 +86,19 @@ public class Families2PersonsFacade {
 	 * @throws ClassNotFoundException
 	 * @throws ProjectNotFoundException
 	 * @throws InvalidUsingException
+	 * @throws InvalidEditingException 
 	 */
-	public void transformToPersons() throws ClassNotFoundException, ProjectNotFoundException, InvalidUsingException {
+	public void transformToPersons() throws ClassNotFoundException, ProjectNotFoundException, InvalidUsingException, InvalidEditingException {
 		System.out.println("Transform started...");
 		List<IInstanceSpecification> members = getAllMembers();
 		for (IInstanceSpecification m : members) {
 			System.out.println("fullName= " + getFirstName(m) + " " + getFamilyName(m));
 			System.out.println("isFemale= " + isFemale(m));
 		}
-
+// http://members.change-vision.com/javadoc/astah-api/6_5/api/en/doc/astahAPI_create.html
+		// http://members.change-vision.com/javadoc/astah-api/6_5/api/en/doc/astahAPI_diagram_create.html
+	    createTargetDiagram();
+        
 		System.out.println("Transform ended.");
 	}
 	/// https://astahblog.com/2013/08/08/uml_object_diagram_in_astah/
@@ -96,6 +106,23 @@ public class Families2PersonsFacade {
 	// Formal Methods: Foundations and Applications: 19th Brazilian Symposium,
 	/// SBMF ...
 	// edited by Leila Ribeiro, Thierry Lecomte
+
+	private void createTargetDiagram() throws ClassNotFoundException, InvalidUsingException, InvalidEditingException {
+		ProjectAccessor projectAccessor =  ProjectAccessorFactory.getProjectAccessor();
+
+	    ClassDiagramEditor cde = projectAccessor.getDiagramEditorFactory().getClassDiagramEditor();
+
+        TransactionManager.beginTransaction();
+        IDiagram iClassDiagram = cde.createClassDiagram(project, "Target-model");
+        //TODO: add objects to diagram
+        //http://members.change-vision.com/javadoc/astah-api/6_5/api/en/doc/astahAPI_presentation_create.html
+    
+        //http://members.change-vision.com/javadoc/astah-api/6_5/api/en/doc/astahAPI_create.html
+        BasicModelEditor basicModelEditor = ModelEditorFactory.getBasicModelEditor();
+//basicModelEditor.create
+  //      TransactionManager.endTransaction();
+        //http://astah.net/faq/community/does-astah-support-object-diagrams
+	}
 
 	private String getFirstName(IInstanceSpecification m) {
 		return m.getSlot("firstName").getValue();
@@ -119,28 +146,30 @@ public class Families2PersonsFacade {
 		return false;
 	}
 
-	private String getFamilyName(IInstanceSpecification m) {
+	private String getFamilyName(IInstanceSpecification m) throws InvalidUsingException {
 		// TODO Auto-generated method stub
 		// TODO Auto-generated method stub
 		//m.getAllResidents();
 		//m.getClientDependencies();
 		//m.getClientRealizations();
 		//m.getClientUsages();
-		//IPresentation[] ps = m.getPresentations();
-		//for (IPresentation iPresentation : ps) {
-		//	System.out.println("Presentation: "+iPresentation);
-		//}
-		ILinkEnd[] les = m.getLinkEnds();
+		IPresentation[] ps = m.getPresentations();
+		for (IPresentation iPresentation : ps) {
+			System.out.println("Presentation: "+iPresentation);
+			//iPresentation.get''
+		}
+		//ILinkEnd[] les = m.getLinkEnds();
 		// Not containers... IElement[] cs = les[0].getContainers();
 		//for (IElement iElement : cs) {
 		//	System.out.println(iElement);
 		//}		
-		System.out.println(les[0].getContainer());
+		// Not container... System.out.println(les[0].getContainer());
+	
 
 		return "DummyFamilyName";
 	}
 
-	private List<IInstanceSpecification> getAllMembers() throws InvalidUsingException {
+	private List<IInstanceSpecification> getAllMembers() throws InvalidUsingException  {
 		List<IInstanceSpecification> ms = new ArrayList<IInstanceSpecification>();
 		IDiagram[] diagrams = project.getDiagrams();
 		for (int i = 0; i < diagrams.length; i++) {
@@ -151,6 +180,8 @@ public class Families2PersonsFacade {
 					if (iInstanceSpecification.getClassifier().getName().equals("Member")) {
 						ms.add(iInstanceSpecification);
 					}
+				} else {
+					System.out.println("Presentation: " + p);
 				}
 			}
 		}
